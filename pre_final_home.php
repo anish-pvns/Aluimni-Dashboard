@@ -11,7 +11,7 @@ if (!isset($_SESSION['username'])) {
 
 
 ?>
-
+    q
 <!DOCTYPE html>
 <html lang="en">
 
@@ -104,6 +104,20 @@ if (!isset($_SESSION['username'])) {
     <?php
 //session_start();
 include "connection.php";
+ 
+// Fetch data from the database for total profiles
+$sqlTotalProfiles = "SELECT COUNT(*) as total_profiles FROM users";
+$resultTotalProfiles = mysqli_query($conn, $sqlTotalProfiles);
+$totalProfiles = mysqli_fetch_assoc($resultTotalProfiles)['total_profiles'];
+
+
+// Fetch data from the database for demographic account number
+$demographicData = [];
+$sqlDemographic = "SELECT job_location, COUNT(*) as count FROM users GROUP BY job_location";
+$resultDemographic = mysqli_query($conn, $sqlDemographic);
+while ($row = mysqli_fetch_assoc($resultDemographic)) {
+    $demographicData[$row['job_location']] = $row['count'];
+}
 
 // Fetch data from the database for job location pie chart
 $jobLocationData = [];
@@ -120,50 +134,56 @@ $resultDepartment = mysqli_query($conn, $sqlDepartment);
 while ($row = mysqli_fetch_assoc($resultDepartment)) {
     $departmentData[$row['branch']] = $row['count'];
 }
+
 ?>
+
 
 <!-- services section  -->
 <section class="services-section" id="services">
     <div class="container">
         <div class="row">
-
-            <div class="col-lg-6 col-md-12 col-sm-12 services">
-
-                <div class="row">
-                    
-
-                    <div class="col-lg-6 col-md-6 col-sm-12">
-                        <!-- Graph 2: Job Location Pie Chart -->
-                        <canvas id="jobLocationPieChart" width="400" height="400"></canvas>
+            <!-- Graphs -->
+            <div class="col-lg-12 col-md-12 col-sm-12 services">
+                <div class="row flex items-baseline">
+                    <!-- Graph 1: Job Location Pie Chart -->
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <h3 class="graph-title-center text-center">Job Location Distribution</h3>
+                        <div style="border: 2px solid black; padding: 10px; border-radius: 50px; margin-bottom: 20px;">
+                            <canvas id="jobLocationPieChart" width="400" height="400"></canvas>
+                        </div>
+                    </div>
+                    <!-- Graph 3: histogram-->
+                    <div class="col-lg-4 col-md-12 col-sm-12">
+                        <h3 class="graph-title text-center">Students Placed </h3>
+                        <div style="border: 2px solid black; padding: 10px; border-radius: 50px;">
+                        <canvas id="placedVsTotalHistogram" width="100" height="100" ></canvas>
+                        </div>
+                    </div>
+                    <!-- Graph 2: Department Pie Chart -->
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <h3 class="graph-title text-center">Department Distribution</h3>
+                        <div style="border: 2px solid black; padding: 10px; border-radius: 50px; margin-bottom: 20px;">
+                            <canvas id="departmentPieChart" width="400" height="400"></canvas>
+                        </div>
+                    </div>
+                    <!-- Graph 4: bar - line chart-->
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <h3 class="graph-title text-center">Years vs Total Students Placed</h3>
+                        <div style="border: 2px solid black; padding: 10px; border-radius: 50px; margin-top: 20px;">
+                            <canvas id="yearsVsTotalStudentsPlaced" width="400" height="200"></canvas>
+                        </div>
                     </div>
                 </div>
-
-                <div class="row">
-                   
-
-                    <div class="col-lg-6 col-md-6 col-sm-12">
-                        <!-- Graph 4: Department Pie Chart -->
-                        <canvas id="departmentPieChart" width="400" height="400"></canvas>
-                    </div>
-                </div>
-
             </div>  
-
-            <div class="col-lg-6 col-md-12 col-sm-12 text-content">
-                
-                <h1>Welcome to Dashboard!</h1>
-                <p>Growth: See our network expand over time.</p>
-                <p>Distribution: Explore alumni locations globally.</p>
-                <p>Engagement: Measure community involvement.</p>
-                
-                <button class="btn">Explore Services</button>
-            </div>
-
         </div>
     </div>
 </section>
 
+
+
+
 <script>
+    
     // JavaScript code to initialize and draw the pie charts
     var jobLocationData = <?php echo json_encode($jobLocationData); ?>;
     var departmentData = <?php echo json_encode($departmentData); ?>;
@@ -232,90 +252,122 @@ while ($row = mysqli_fetch_assoc($resultDepartment)) {
         });
     }
 
-    // Call functions to draw pie charts
+    
+    // JavaScript code to initialize and draw the pie charts
+    var jobLocationData = <?php echo json_encode($jobLocationData); ?>;
+    var departmentData = <?php echo json_encode($departmentData); ?>;
+    
+    // Function to fetch placed student counts from department distribution data
+    function getPlacedStudents() {
+        var placedStudents = [];
+        Object.values(departmentData).forEach(function(count) {
+            placedStudents.push(count);
+        });
+        return placedStudents;
+    }
+
+    // Function to draw histogram graph
+    function drawHistogram() {
+        var totalStudents = [100, 150, 200]; // Static total student numbers
+        var placedStudents = getPlacedStudents();
+
+        var histogramCanvas = document.getElementById("placedVsTotalHistogram");
+        var histogramCtx = histogramCanvas.getContext("2d");
+
+        new Chart(histogramCtx, {
+            type: 'bar',
+            data: {
+                labels: ['CSE', 'Mech', 'ECE'],
+                datasets: [
+                    {
+                        label: 'Total Students',
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                        data: totalStudents
+                    },
+                    {
+                        label: 'Placed Students',
+                        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                        data: placedStudents
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    }
+    
+    // Function to fetch years and total students placed data from the backend
+    function fetchYearsVsTotalStudentsPlacedData() {
+     
+            return {
+                years: ['2020', '2021', '2022','2023','2024'],
+                totalStudentsPlaced: [70, 65, 100,110,120,100] 
+            };
+        }
+
+    // Function to draw years vs total students placed graph
+    function drawYearsVsTotalStudentsPlaced() {
+    var data = fetchYearsVsTotalStudentsPlacedData();
+
+    var yearsVsTotalStudentsPlacedCanvas = document.getElementById("yearsVsTotalStudentsPlaced");
+    var yearsVsTotalStudentsPlacedCtx = yearsVsTotalStudentsPlacedCanvas.getContext("2d");
+
+    // Define an array of colors for each bar
+    var barColors = ['rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)', 'rgba(75, 192, 192, 0.5)', 'rgba(153, 102, 255, 0.5)'];
+
+    new Chart(yearsVsTotalStudentsPlacedCtx, {
+        type: 'bar',
+        data: {
+            labels: data.years,
+            datasets: [{
+                label: 'Total Students Placed',
+                data: data.totalStudentsPlaced,
+                backgroundColor: barColors,
+            }]
+        },
+        options: {
+            legend: {
+                display: true,
+                position: 'left'
+            },
+            scales: {
+                xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Year'
+                    }
+                }],
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        
+                    },
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+}
+
+
+
+
+    // Call function to draw visualizations
+    drawHistogram();
     drawJobLocationPieChart();
-    drawDepartmentPieChart();
+    drawDepartmentPieChart();     
+    drawYearsVsTotalStudentsPlaced();                   
 </script>
 
-                
-    
-            </div>
-        </div>
-    </section>
-    
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        // Dummy data for the charts
-        var barChartData = {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-            datasets: [{
-                label: 'Dataset 1',
-                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                borderColor: 'rgba(255, 99, 132, 1)',
-                borderWidth: 1,
-                data: [65, 59, 80, 81, 56, 55, 40]
-            }]
-        };
-    
-        var pieChartData = {
-            labels: ['Red', 'Blue', 'Yellow'],
-            datasets: [{
-                data: [300, 50, 100],
-                backgroundColor: ['red', 'blue', 'yellow']
-            }]
-        };
-    
-        var lineChartData = {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-            datasets: [{
-                label: 'Dataset 1',
-                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                borderColor: 'rgba(255, 99, 132, 1)',
-                borderWidth: 1,
-                data: [65, 59, 80, 81, 56, 55, 40]
-            }]
-        };
-    
-        var doughnutChartData = {
-            labels: ['Red', 'Blue', 'Yellow'],
-            datasets: [{
-                data: [300, 50, 100],
-                backgroundColor: ['red', 'blue', 'yellow']
-            }]
-        };
-    
-        // Create charts
-        window.onload = function() {
-            var ctx1 = document.getElementById('barChart').getContext('2d');
-            new Chart(ctx1, {
-                type: 'bar',
-                data: barChartData,
-                options: {}
-            });
-    
-            var ctx2 = document.getElementById('pieChart').getContext('2d');
-            new Chart(ctx2, {
-                type: 'pie',
-                data: pieChartData,
-                options: {}
-            });
-    
-            var ctx3 = document.getElementById('lineChart').getContext('2d');
-            new Chart(ctx3, {
-                type: 'line',
-                data: lineChartData,
-                options: {}
-            });
-    
-            var ctx4 = document.getElementById('doughnutChart').getContext('2d');
-            new Chart(ctx4, {
-                type: 'doughnut',
-                data: doughnutChartData,
-                options: {}
-            });
-        };
-    </script>
-    
 
    <!-- Campus Drive section -->
 <section class="project-section" id="projects">
@@ -330,9 +382,13 @@ while ($row = mysqli_fetch_assoc($resultDepartment)) {
                 <p>Discover the placement statistics and companies visiting our campus for recruitment</p>
             </div>
         </div>
-        <div class="row project">
-            <!-- Organization 1 -->
-            <div class="col-lg-3 col-md-6 col-sm-12">
+        <div class="row project grid grid-cols-12">
+<!--  Carousel  -->
+<div class="col-lg-6 col-sm-12 ">
+<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+    <div class="col-lg-7  col-md-6 col-sm-12 mx-auto" style="height:fit-content;">
                 <div class="card">
                     <img src="images/project1.jpg" class="card-img-top" alt="...">
                     <div class="card-body">
@@ -348,9 +404,9 @@ while ($row = mysqli_fetch_assoc($resultDepartment)) {
                     </div>
                 </div>
             </div>
-            <!-- Additional project cards -->
-            <!-- Organization 2 -->
-            <div class="col-lg-3 col-md-6 col-sm-12">
+    </div>
+    <div class="carousel-item">
+    <div class="col-lg-7  col-md-6 col-sm-12 mx-auto" style="height:fit-content;">
                 <div class="card">
                     <img src="images/project2.jpg" class="card-img-top" alt="...">
                     <div class="card-body">
@@ -365,8 +421,9 @@ while ($row = mysqli_fetch_assoc($resultDepartment)) {
                     </div>
                 </div>
             </div>
-            <!-- Organization 3 -->
-            <div class="col-lg-3 col-md-6 col-sm-12">
+    </div>
+    <div class="carousel-item">
+    <div class="col-lg-7  col-md-6 col-sm-12 mx-auto" style="height:fit-content;">
                 <div class="card">
                     <img src="images/project3.jpg" class="card-img-top" alt="...">
                     <div class="card-body">
@@ -381,8 +438,9 @@ while ($row = mysqli_fetch_assoc($resultDepartment)) {
                     </div>
                 </div>
             </div>
-            <!-- Organization 4 -->
-            <div class="col-lg-3 col-md-6 col-sm-12">
+    </div>
+    <div class="carousel-item">
+    <div class="col-lg-7  col-md-6 col-sm-12 mx-auto" style="height:fit-content;">
                 <div class="card">
                     <img src="images/project4.jpg" class="card-img-top" alt="...">
                     <div class="card-body">
@@ -397,6 +455,19 @@ while ($row = mysqli_fetch_assoc($resultDepartment)) {
                     </div>
                 </div>
             </div>
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+</div>
+<div class="col-lg-6 col-sm-12"></div>
         </div>
     </div>
 </section>
