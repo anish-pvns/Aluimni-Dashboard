@@ -33,7 +33,7 @@ if (isset($_POST['register'])) {
             $result = mysqli_query($conn, $sql);
             if ($result) {
                 echo "<div class='message'><p>You are registered successfully!</p></div><br>";
-                echo "<a href='login.php'><button class='btn'>Login Now</button></a>";
+                echo "<a href='direction_1.php'><button class='btn'>Login Now</button></a>";
             } else {
                 echo "<div class='message'><p>Failed to register. Please try again later.</p></div><br>";
                 echo "<a href='javascript:self.history.back()'><button class='btn'>Go Back</button></a>";
@@ -156,7 +156,7 @@ if (isset($_POST['register'])) {
                 <center><input type="submit" name="register" id="submit" value="Signup" class="btn"></center>
 
                 <div class="links">
-                    Already have an account? <a href="login.php">Signin Now</a>
+                    Already have an account? <a href="login_final.php">Signin Now</a>
                 </div>
 
             </form>

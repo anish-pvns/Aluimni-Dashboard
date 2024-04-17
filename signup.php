@@ -70,7 +70,7 @@
       <p>You are register successfully!</p>
       </div><br>";
 
-                  echo "<a href='login.php'><button class='btn'>Login Now</button></a>";
+                  echo "<a href='./direction_1.php'><button class='btn'>Login hi</button></a>";
 
                 } else {
                   echo "<div class='message'>
@@ -121,7 +121,7 @@
 
 
           <div class="links">
-            Already have an account? <a href="login.php">Signin Now</a>
+            Already have an account? <a href="direction_1.php">Signin Now</a>
           </div>
 
         </form>

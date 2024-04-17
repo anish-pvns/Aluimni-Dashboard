@@ -97,7 +97,7 @@ session_start();
           <input type="submit" name="login" id="submit" value="Login " class="button">
 
           <div class="links">
-            Don't have an account? <a href="signup.php">Signup Now</a>
+            Don't have an account? <a href="registration.php">Signup Now</a>
           </div>
 
         </form>

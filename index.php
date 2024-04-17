@@ -38,9 +38,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#about">About Us</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#Stories">Stories</a>
-                        </li>
+                       
                         <li class="nav-item">
                             <a class="nav-link" href="#contact">Contact</a>
                         </li>
@@ -284,7 +282,6 @@
                 <ul class="d-flex">
                     <li><a href="#">Home</a></li>
                     <li><a href="#">Services</a></li>
-                    <li><a href="#">Stories</a></li>
                     <li><a href="#">About Us</a></li>
                     <li><a href="#">Contact</a></li>
                 </ul>

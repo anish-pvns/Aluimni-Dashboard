@@ -11,7 +11,7 @@ if (!isset($_SESSION['username'])) {
 
 
 ?>
-    q
+    
 <!DOCTYPE html>
 <html lang="en">
 
@@ -375,22 +375,26 @@ while ($row = mysqli_fetch_assoc($resultDepartment)) {
         <div class="row text">
             <div class="col-lg-6 col-md-12">
                 <h3>Campus Drives</h3>
-                <h1>Explore Company Placements</h1>
+                <h1>Explore Campus Placements Companies</h1>
                 <hr>
             </div>
             <div class="col-lg-6 col-md-12">
-                <p>Discover the placement statistics and companies visiting our campus for recruitment</p>
+                <h3>Up Coming Campus Drives</h3>
+                <h1>Explore Upcoming Companies</h1>
+                <hr>
             </div>
         </div>
         <div class="row project grid grid-cols-12">
+
+
 <!--  Carousel  -->
 <div class="col-lg-6 col-sm-12 ">
 <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-inner">
     <div class="carousel-item active">
-    <div class="col-lg-7  col-md-6 col-sm-12 mx-auto" style="height:fit-content;">
+    <div class="col-lg-7  col-md-6 col-sm-12 mx-auto" style="height:500px;">
                 <div class="card">
-                    <img src="images/project1.jpg" class="card-img-top" alt="...">
+                    <img src="images/rupeek.jpg" class="card-img-top" alt="...">
                     <div class="card-body">
                         <div class="text">
                             <h4 class="card-title">Rupeek Fintech</h4>
@@ -406,9 +410,9 @@ while ($row = mysqli_fetch_assoc($resultDepartment)) {
             </div>
     </div>
     <div class="carousel-item">
-    <div class="col-lg-7  col-md-6 col-sm-12 mx-auto" style="height:fit-content;">
+    <div class="col-lg-7  col-md-6 col-sm-12 mx-auto" style="height:500px;">
                 <div class="card">
-                    <img src="images/project2.jpg" class="card-img-top" alt="...">
+                    <img src="images/ediglobe.jpg" class="card-img-top" alt="...">
                     <div class="card-body">
                         <div class="text">
                             <h4 class="card-title">EdiGlobe</h4>
@@ -423,9 +427,9 @@ while ($row = mysqli_fetch_assoc($resultDepartment)) {
             </div>
     </div>
     <div class="carousel-item">
-    <div class="col-lg-7  col-md-6 col-sm-12 mx-auto" style="height:fit-content;">
+    <div class="col-lg-7  col-md-6 col-sm-12 mx-auto" style="height:500px;">
                 <div class="card">
-                    <img src="images/project3.jpg" class="card-img-top" alt="...">
+                    <img src="images/cognizant.jpg" class="card-img-top" alt="...">
                     <div class="card-body">
                         <div class="text">
                             <h4 class="card-title">Cognizant</h4>
@@ -440,9 +444,9 @@ while ($row = mysqli_fetch_assoc($resultDepartment)) {
             </div>
     </div>
     <div class="carousel-item">
-    <div class="col-lg-7  col-md-6 col-sm-12 mx-auto" style="height:fit-content;">
+    <div class="col-lg-7  col-md-6 col-sm-12 mx-auto" style="height:500px;">
                 <div class="card">
-                    <img src="images/project4.jpg" class="card-img-top" alt="...">
+                    <img src="images/tcs.jpg" class="card-img-top" alt="...">
                     <div class="card-body">
                         <div class="text">
                             <h4 class="card-title">TCS</h4>
@@ -467,7 +471,92 @@ while ($row = mysqli_fetch_assoc($resultDepartment)) {
   </button>
 </div>
 </div>
-<div class="col-lg-6 col-sm-12"></div>
+<div class="col-lg-6 col-sm-12">
+
+
+<!-- right side carousel-->
+<div id="carouselExampleControls1" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+    <div class="col-lg-7  col-md-6 col-sm-12 mx-auto" style="height:500px;">
+                <div class="card">
+                    <img src="images/rupeek.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <div class="text">
+                            <h4 class="card-title">Rupeek Fintech</h4>
+                            <h3 class="card-heading">Bangalore</h3>
+                            <h3 class="card-heading"> Date:19th April 2023 </h3>
+                            <button class="GFG" onclick="window.location.href='https://rupeek.com/?city=Bangalore';" > Learn More  </button>                        
+                            <!-- Canvas element for chart -->
+                            <canvas id="chart1" width="200" height="100"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <div class="carousel-item">
+    <div class="col-lg-7  col-md-6 col-sm-12 mx-auto" style="height:500px;">
+                <div class="card">
+                    <img src="images/ediglobe.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                    <div class="text">
+                            <h4 class="card-title">EdiGlobe</h4>
+                            <h3 class="card-heading">Visakapatanam</h3>
+                            <h3 class="card-heading"> Date:20th April 2023 </h3>
+                            <button class="GFG" onclick="window.location.href='https://ediglobe.com/';" > Learn More  </button>                        
+                            <!-- Canvas element for chart -->
+                            <canvas id="chart1" width="200" height="100"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <div class="carousel-item">
+    <div class="col-lg-7  col-md-6 col-sm-12 mx-auto" style="height:500px;">
+                <div class="card">
+                    <img src="images/cognizant.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                    <div class="text">
+                            <h4 class="card-title">Cognizant</h4>
+                            <h3 class="card-heading">Hyderabad</h3>
+                            <h3 class="card-heading"> Date:29th April 2023 </h3>
+                            <button class="GFG" onclick="window.location.href='https://www.cognizant.com/in/en';" > Learn More  </button>                        
+                            <!-- Canvas element for chart -->
+                            <canvas id="chart1" width="200" height="100"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <div class="carousel-item">
+    <div class="col-lg-7  col-md-6 col-sm-12 mx-auto" style="height:500px;">
+                <div class="card">
+                    <img src="images/tcs.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <div class="text">
+                        <h4 class="card-title">TCS</h4>
+                            <h3 class="card-heading">Chennai</h3>
+                            <h3 class="card-heading"> Date:28th April 2023 </h3>
+                            <button class="GFG" onclick="window.location.href='https://www.tcs.com/';" > Learn More  </button>                        
+                            <!-- Canvas element for chart -->
+                            <canvas id="chart4" width="200" height="100"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls1" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls1" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+</div>
         </div>
     </div>
 </section>
