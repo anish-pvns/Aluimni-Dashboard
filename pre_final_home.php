@@ -69,13 +69,12 @@ if (!isset($_SESSION['username'])) {
                                         }
 
 
-                                        echo "<a class='dropdown-item' href='edit.php?id=$res_id'>Change Profile</a>";
 
 
                                         ?>
 
                                     </li>
-                                    <li><a class="dropdown-item" href="logout.php">Logout</a></li>
+                                    <li><a class="dropdown-item" href="direction_1.php">Logout</a></li>
                                 </ul>
                             </div>
 
@@ -652,7 +651,6 @@ while ($row = mysqli_fetch_assoc($resultDepartment)) {
                 <ul class="d-flex">
                     <li><a href="#">Home</a></li>
                     <li><a href="#">Services</a></li>
-                    <li><a href="#">Stories</a></li>
                     <li><a href="#">About Us</a></li>
                     <li><a href="#">Contact</a></li>
                 </ul>
