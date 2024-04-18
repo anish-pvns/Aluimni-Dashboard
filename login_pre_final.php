@@ -87,7 +87,6 @@ session_start();
             <div class="remember">
               <input type="checkbox" class="check" name="remember_me">
               <label for="remember">Remember me</label>
-              <span><a href="forgot.php">Forgot password</a></span>
             </div>
 
           </div>
