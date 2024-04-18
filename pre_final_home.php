@@ -135,6 +135,7 @@ while ($row = mysqli_fetch_assoc($resultDepartment)) {
     $departmentData[$row['branch']] = $row['count'];
 }
 
+
 ?>
 
 
